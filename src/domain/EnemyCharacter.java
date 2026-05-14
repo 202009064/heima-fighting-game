@@ -5,7 +5,7 @@ public class EnemyCharacter extends Character {
     // 为什么我方角色技能用字符串列表定义数据结构，而敌方角色技能用字符串定义数据结构？
     // 因为我方角色技能是多个，而敌方角色技能是一个
     public String skill;
-    public boolean defending; // 是否在防御中，true：是 false：否
+    public boolean defending; // 是否在防御中，true：是 false：否。默认false。
 
     public EnemyCharacter(){
         super();
