@@ -33,7 +33,7 @@ public class FightingGame {
         enemyList.add(new EnemyCharacter("重装坦克", 120, 10, 20, "防御姿态"));
         enemyList.add(new EnemyCharacter("神秘法师", 70, 25, 8, "火球术（180%伤害）"));
 
-        // 准备战斗（依次跟多个敌人战斗）
+        // 5. 准备战斗（依次跟多个敌人战斗）
         int count = 1; // 记录当前我是跟第几个敌人进行战斗
         int wins = 0; // 记录胜利了几场战斗
 
@@ -42,7 +42,7 @@ public class FightingGame {
             // 进入循环，开始准备战斗
 
             // 5.1 重置敌人的属性，列表中的每个敌人属性每场HP+10, ATK+3, DEF+2（敌人：越来越难打）（第二场的时候）
-            if(wins != 0){ // count > 1，两种写法都可以，都表示第二场的时候（只有第一场胜利了，才会进入第二场战斗）
+            if(count > 1){ // wins != 0，两种写法都可以，都表示第二场的时候（只有第一场胜利了，才会进入第二场战斗）
                 for(int i = 0; i < enemyList.size(); i++){
                     EnemyCharacter c = enemyList.get(i);
                     // 生命值 + 10
@@ -64,7 +64,7 @@ public class FightingGame {
             System.out.println(enemy.show());
 
             // 5.3 战斗开始，显示双方状态（生命值）
-            System.out.println("═══════════════════════════════════════");
+            System.out.println("═══════════════════════════════════════════════════");
             System.out.println("⚔️ 第 " + count + " 场战斗开始！对手: " + enemy.name);
             
             // 跟当前的敌人战斗了几个回合了
@@ -83,11 +83,11 @@ public class FightingGame {
                 // 5.5 判断敌人是否被击败（判断敌方血量是否为0）
                 if(!enemy.isAlive()){
                     System.out.println("🎉 你击败了 " + enemy.name + "!");
-                    System.out.println("💚 战斗结束！你恢复了 36 点生命值");
-                    player.heal(36);
+                    // System.out.println("💚 战斗结束！你恢复了 36 点生命值");
+                    // player.heal(36);
                     // 我方胜利了，连胜的计算器会自增一次
                     wins++;
-                    System.out.println("🏆 当前胜场: " + wins);
+                    // System.out.println("🏆 当前胜场: " + wins);
                     // 结束小循环，继续跟下一个敌人进行战斗
                     break;
                 }
@@ -117,10 +117,62 @@ public class FightingGame {
                 // 如果我的血量不为0，继续执行内循环，开始下一个回合 round++
             }
 
-            // 5.4 跟单个敌人结束战斗（结算，回血，每完成3场战斗则增加我方人物的属性点，询问y/n y）
+            // 5.8910 跟单个敌人结束战斗（结算，回血，每完成3场战斗则增加我方人物的属性点，询问y/n y）
             */
 
+            // 5.8 跟一个敌人的战斗结束后，玩家胜利（恢复生命值继续战斗）玩家失败（游戏停止）
+            if(player.isAlive()){
+                // 玩家与一个敌人战斗结束，玩家胜利，恢复生命值继续下一场战斗
+                // 计算玩家要恢复多少点血量[20,40]
+                r = new Random();
+                int healHP = r.nextInt(20, 41);
+                // 玩家恢复生命值
+                player.heal(healHP);
+                // 显示玩家当前生命值
+                System.out.println("💚 " + player.name + " 恢复了 " + healHP + " 点生命值");
+                System.out.println("🏆 当前胜场: " + wins);
+                System.out.println("═══════════════════════════════════════");
+            }
+
+            // 5.9 每3场胜利，提升属性
+            if(player.isAlive() && wins > 0 && wins % 3 == 0){
+                System.out.println("恭喜你，您获得属性提升！");
+                // 提升 最大生命值、攻击力、防御力
+                player.maxHP += 30;
+                player.attack += 5;
+                player.defence += 3;
+                // 显示玩家当前属性
+                System.out.println("当前属性：最大生命力+30点，攻击力+5点，防御力+3点");
+                System.out.println("当前属性：" + player.show());
+            }
+
+            // 5.10 询问是否继续
+            if(player.isAlive()){
+                System.out.println("是否继续战斗？（y/n）");
+                Scanner sc = new Scanner(System.in);
+                String choose = sc.next();
+                if("y".equalsIgnoreCase(choose)){
+                    count++;
+                    continue;
+                }else if("n".equalsIgnoreCase(choose)){
+                    System.out.println("游戏结束");
+                    break;
+                }else{
+                    System.out.println("没有这个选项，默认游戏继续");
+                    continue;
+                }
+            }
+
         }
+        
+        // 6. 整个游戏结束，最终结算
+        System.out.println("═══════════════════════════════════════════════════");
+        System.out.println("游戏结束，最终结算：");
+        System.out.println("🏆 总胜场: " + wins + ", 总战斗场数: " + count);
+        System.out.println("═══════════════════════════════════════════════════");
+
+        // 停止虚拟机的运行
+        System.exit(0);
     }
 
     // 创建玩家角色（名字 + 属性分配）
@@ -320,10 +372,10 @@ public class FightingGame {
                 player.takeDamage(damage3); // 玩家受到伤害
                 break;
             case "防御姿态":
-                System.out.println(enemy.name + "使用防御姿态");
+                System.out.println("当前的" + enemy.name + "采用了防御姿态  buff");
                 // 敌人使用防御姿态，伤害减半
                 enemy.defending = true;
-                System.out.println("*" + enemy.name + "使用防御姿态，伤害减半");
+                System.out.println("* " + enemy.name + "摆出防御姿态，下回合伤害减半"); // 开启防御状态，下回合减伤
                 break;
             case "火球术":
                 System.out.println(enemy.name + "使用火球术");
