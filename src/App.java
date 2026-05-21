@@ -1,5 +1,4 @@
 import ui.Login;
-import ui.FightingGame;
 
 public class App {
     public static void main(String[] args) {

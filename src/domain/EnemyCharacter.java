@@ -9,7 +9,7 @@ public class EnemyCharacter extends Character {
 
     public EnemyCharacter(){
         super();
-    }
+    } // 无作用，只是为了方便调用父类的构造函数，而定义的
     public EnemyCharacter(String name, int HP, int attack, int defence, String skill){
         super(name, HP, attack, defence);
         this.skill = skill;

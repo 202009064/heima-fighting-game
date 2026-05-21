@@ -71,7 +71,7 @@ public class Login {
 
         // 4. 让用户继续键盘录入验证码和密码
         String rightPassword = u.getPassword();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 1; i <= 3; i++) {
             System.out.println("请输入密码：");
             String password = sc.next();
 
@@ -103,13 +103,13 @@ public class Login {
                 break;
             } else {
                 System.out.println("登录失败，密码输入错误~");
-                if (i == 2) {
+                if (i == 3) {
                     // 三次机会都用完了
                     u.setStatus(false);
                     System.out.println("用户名" + username + "已被锁定，请联系客服~");
                     return;
                 } else {
-                    System.out.println("密码错误，您还有" + (2 - i) + "次机会重新输入密码~");
+                    System.out.println("密码错误，您还有" + (3 - i) + "次机会重新输入密码~");
                 }
             }
         }
@@ -134,12 +134,13 @@ public class Login {
             String username = sc.next();
 
             // 校验用户名的步骤：1.长度 2.格式 3.唯一性（检测username是否在list中是否出现，出现即重复，否则为唯一）
+            //                  校验顺序遵循：从成本低到成本高，从通用到具体。即先淘汰明显不合格的数据，再花力气做精细检查。
             if (!checkLen(3, 16, username)) {
-                System.out.println("用户名长度必须在3 ~ 16位");
+                System.out.println("用户名长度必须在3 ~ 16位, 请重新输入");
                 continue;
             }
             if (!checkUsername(username)) {
-                System.out.println("用户名只能由字母、数字组成，不能是纯数字");
+                System.out.println("用户名只能由字母、数字组成，不能是纯数字, 请重新输入");
                 continue;
             }
             if (contains(list, username)) {
@@ -200,7 +201,7 @@ public class Login {
     // 判断用户名在集合中是否存在
     public boolean contains(ArrayList<User> list, String username) {
         for (User u : list) { // u == list.get(i)
-            if (u.getUsername().equals(username)) {
+            if (u.getUsername().equals(username)) { // Object.equals(u.getUsername(), username)
                 return true; // 用户名存在
             }
         }
@@ -209,7 +210,7 @@ public class Login {
 
     // 校验密码是否符合要求（只能由字母+数字组成，不能有其他字符），所以字母至少有一个，数字至少有一个，其他字符不能有字符
     public boolean checkPassword(String password) {
-        int[] count = getCount(password);
+        int[] count = getCount(password); // 统计密码中字母、数字、其他字符分别有多少个
         int charCount = count[0], numCount = count[1], otherCount = count[2];
         return charCount > 0 && numCount > 0 && otherCount == 0;
     }

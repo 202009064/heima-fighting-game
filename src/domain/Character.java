@@ -41,14 +41,15 @@ public class Character {
     // 作用：受到N点伤害之后，还有多少点血量
     // 形参：具体受到多少点伤害
     public void takeDamage(int damage) {
-        this.HP -= damage;
-        if (this.HP < 0) {
-            this.HP = 0;
-        }
+        // this.HP -= damage;
+        // if (this.HP < 0) {
+        //     this.HP = 0;
+        // }
+        this.HP = Math.max(this.HP, 0);
     }
 
     // 4. 展示人物的属性值
     public String show() {
-        return this.name + "[当前生命：" + this.HP + "，攻击力：" + this.attack + "，防御力：" + this.defence + "]";
+        return this.name + "[ 当前生命：" + this.HP + "，攻击力：" + this.attack + "，防御力：" + this.defence + " ]";
     }
 }

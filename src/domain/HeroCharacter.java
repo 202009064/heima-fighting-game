@@ -5,7 +5,10 @@ import java.util.ArrayList;
 public class HeroCharacter extends Character {
     public ArrayList<String> skillList; // 技能列表
 
-    // 在构造函数中把集合对象也初始化了，这样子的好处是：外界要给我放角色添加技能的时候，无需考虑集合，直接add即可
+    // 把集合对象也初始化了，这样子的好处是：外界要给我放角色添加技能的时候，无需考虑集合，直接add即可
+    // 其实初始化写构造函数里和外部都行，只需记住，
+    //                                    所有构造函数初始化结果一样 → 则在定义时进行初始化，因为简洁；
+    //                                    不同构造函数需要不同的初始值 → 在构造函数中初始化。
     public HeroCharacter(){
         super();
         skillList = new ArrayList<>();

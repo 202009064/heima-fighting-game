@@ -41,7 +41,7 @@ public class FightingGame {
         while(player.isAlive()){ // 我方依次和多个敌人进行战斗，直到我方的生命值为0，游戏才会结束
             // 进入循环，开始准备战斗
 
-            // 5.1 重置敌人的属性，列表中的每个敌人属性每场HP+10, ATK+3, DEF+2（敌人：越来越难打）（第二场的时候）
+            // 5.1 重置敌人的属性，列表中的每个敌人属性每场HP+10, ATK+3, DEF+2（敌人：越来越难打）（第二场及以后场次）
             if(count > 1){ // wins != 0，两种写法都可以，都表示第二场的时候（只有第一场胜利了，才会进入第二场战斗）
                 for(int i = 0; i < enemyList.size(); i++){
                     EnemyCharacter c = enemyList.get(i);
@@ -68,8 +68,8 @@ public class FightingGame {
             System.out.println("⚔️ 第 " + count + " 场战斗开始！对手: " + enemy.name);
             
             // 跟当前的敌人战斗了几个回合了
-            int round = 1; // 记录当前是第几个回合了
-            while(player.isAlive()){ // 我方和当前敌人进行多轮回合制战斗，直到有一方的生命值为0，战斗结束。【为什么这里不需要判断敌人的生命值？因为在小循环中进行判断】
+            int round = 1; // 记录在1V1战斗中，当前是第几个回合
+            while(player.isAlive()){ // 我方和当前敌人进行多轮回合制战斗，直到有一方的生命值为0，战斗结束。【为什么这里不需要判断敌人的生命值？因为在内循环的内部进行判断】
                 // 显示双方当前状态（生命值）
                 System.out.println("---------------------------------------");
                 System.out.println("⚔️ 第" + round + " 回合开始！");
