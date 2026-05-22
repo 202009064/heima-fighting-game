@@ -58,7 +58,7 @@ public class FightingGame {
             }
 
             // 5.2 随机选择敌人(Random)
-            Random r = new Random();
+            Random r = new Random(); // 选择敌人
             int index = r.nextInt(enemyList.size());
             EnemyCharacter enemy = enemyList.get(index); // 随机选择一个敌人
             System.out.println(enemy.show());
@@ -72,7 +72,7 @@ public class FightingGame {
             while(player.isAlive()){ // 我方和当前敌人进行多轮回合制战斗，直到有一方的生命值为0，战斗结束。【为什么这里不需要判断敌人的生命值？因为在内循环的内部进行判断】
                 // 显示双方当前状态（生命值）
                 System.out.println("---------------------------------------");
-                System.out.println("⚔️ 第" + round + " 回合开始！");
+                System.out.println("⚔️ 第 【" + round + "】 回合开始！");
                 // 打印敌我双方的血条
                 System.out.println(getHealthBar(player.name, player.HP, player.maxHP));
                 System.out.println(getHealthBar(enemy.name, enemy.HP, enemy.maxHP));
@@ -82,7 +82,7 @@ public class FightingGame {
 
                 // 5.5 判断敌人是否被击败（判断敌方血量是否为0）
                 if(!enemy.isAlive()){
-                    System.out.println("🎉 你击败了 " + enemy.name + "!");
+                    System.out.println("🎉 " + player.name + " 击败了 " + enemy.name + "!");
                     // System.out.println("💚 战斗结束！你恢复了 36 点生命值");
                     // player.heal(36);
                     // 我方胜利了，连胜的计算器会自增一次
@@ -120,11 +120,11 @@ public class FightingGame {
             // 5.8910 跟单个敌人结束战斗（结算，回血，每完成3场战斗则增加我方人物的属性点，询问y/n y）
             */
 
-            // 5.8 跟一个敌人的战斗结束后，玩家胜利（恢复生命值继续战斗）玩家失败（游戏停止）
+            // 5.8 跟一个敌人的战斗结束后，玩家胜利（恢复生命值继续战斗），玩家失败（游戏停止）
             if(player.isAlive()){
                 // 玩家与一个敌人战斗结束，玩家胜利，恢复生命值继续下一场战斗
                 // 计算玩家要恢复多少点血量[20,40]
-                r = new Random();
+                r = new Random(); // 恢复生命值
                 int healHP = r.nextInt(20, 41);
                 // 玩家恢复生命值
                 player.heal(healHP);
@@ -273,7 +273,7 @@ public class FightingGame {
     // 我打敌人，玩家回合
     public void playerTurn(HeroCharacter player, EnemyCharacter enemy){
         // ===== 玩家的回合 =====
-        // 1. 普通攻击
+        // 1. 普通攻击 (默认操作)
         // 2. 强力一击 (消耗10HP)
         // 3. 生命汲取 (消耗10HP，恢复生命)
         System.out.println("===== " + player.name + " 的回合 =====");
@@ -288,7 +288,7 @@ public class FightingGame {
                 // 基础伤害公式：`伤害 = 攻击力 - 防御力 `;
                 // 最小伤害：1点
                 int damage1 = calculateDamage(player.attack, enemy.defence);
-                System.out.println("你对" + enemy.name + "使用普通攻击，造成了" + damage1 + "点伤害");
+                System.out.println(player.name + " 对 " + enemy.name + " 使用普通攻击，造成了 " + damage1 + " 点伤害");
                 enemy.takeDamage(damage1); // 敌人受到伤害
                 break;
             case 2: // 玩家选择了强力一击
@@ -300,7 +300,7 @@ public class FightingGame {
                     player.takeDamage(10);
                     // - 技能伤害：`伤害 = 攻击力 * n% - 防御力`
                     int damage2 = calculateDamage((int)(player.attack * 1.8), enemy.defence);
-                    System.out.println("💥消耗10HP，你对" + enemy.name + "使用强力一击，造成了" + damage2 + "点伤害");
+                    System.out.println("💥消耗10HP，"+ player.name + "对" + enemy.name + "使用强力一击，造成了" + damage2 + "点伤害");
                     enemy.takeDamage(damage2); // 敌人受到伤害
                 }
                 break;
@@ -312,7 +312,7 @@ public class FightingGame {
                     // 使用技能消耗我方10HP
                     player.takeDamage(10);
                     // 计算恢复的血量(0,20]
-                    Random r = new Random();
+                    Random r = new Random(); // 生命汲取
                     int healHP = r.nextInt(21);
                     player.heal(healHP);
                     System.out.println("你使用生命汲取，恢复了" + healHP + "点生命值");
@@ -340,7 +340,7 @@ public class FightingGame {
         String action = "普通攻击";
 
         // 进行几率的计算
-        Random r = new Random();
+        Random r = new Random(); // 敌人行动
         int num = r.nextInt(10); // 0、1、2、3、4 （普通攻击），5、6、7、8、9 （技能攻击）
         if(num >= 5){
             action = enemy.skill; // "技能攻击"

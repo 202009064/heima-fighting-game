@@ -45,7 +45,7 @@ public class Character {
         // if (this.HP < 0) {
         //     this.HP = 0;
         // }
-        this.HP = Math.max(this.HP, 0);
+        this.HP = Math.max(this.HP - damage, 0);
     }
 
     // 4. 展示人物的属性值
