@@ -35,6 +35,12 @@ public class User {
 
         return sb.toString(); // 将 StringBuilder 转换为字符串
     }
+    // public String createId(){
+    //     return UUID.randomUUID().toString(); // 	工业标准
+    //}
+    // public String createId(){
+    //     return "heima" + System.currentTimeMillis(); // 	简单可靠
+    //}
 
     public String getId() {
         return id;
